@@ -2,7 +2,7 @@
 Console based water intake reminder for Windows Desktop
 
 <!-- <img src="readme/h2o.gif" width="533" height="311"> -->
-<img src="readme/h2o.gif">
+<img src="readme/h2o.gif" width="800" height="467">
 
 Features:
 * Automatic recalculation of optimal water consumption interval every second, immediately after 1 glass is due to be consumed
