@@ -20,3 +20,6 @@ GlASS ---> Amount of milliliters that fits in you H2O consumption vessel
 H2OG  ---> H2O consumption goal for the day
 H2OC  ---> H2O already consumed today
 ```
+
+[Bulding with `msvc_build.cmd`](https://github.com/ScienceDiscoverer/npp_msvc_ide)
+[`stdp.lib`/`txt.lib`](https://github.com/ScienceDiscoverer/sd_std_libs)
