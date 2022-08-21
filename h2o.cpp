@@ -430,7 +430,7 @@ void __declspec(nothrow) tproc(HWND p1, UINT p2, UINT_PTR p3, DWORD p4)
 		hybernation = true;
 		end_of_time = true;
 	}
-	else if(end_of_time && cur_mins >= start_mins)
+	else if(end_of_time && cur_mins >= start_mins && cur_mins < end_mins)
 	{
 		hybernation = false;
 		end_of_time = false;
@@ -492,6 +492,11 @@ void __declspec(nothrow) tproc(HWND p1, UINT p2, UINT_PTR p3, DWORD p4)
 	
 	ReleaseMutex(mutex_lock);
 	// CRITICAL SECTION
+	
+	if(end_of_time)
+	{
+		return;
+	}
 	
 	if(!min && !sec)
 	{
