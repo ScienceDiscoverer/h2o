@@ -82,7 +82,11 @@ int wmain()
 	recalcInterval();
 	min = int_min;
 	sec = int_sec;
-	shots_need = 1;
+	
+	if(h2o_consumed < h2o_goal)
+	{
+		shots_need = 1;
+	}
 	
 	SYSTEMTIME lt;
 	GetLocalTime(&lt);
@@ -457,10 +461,11 @@ void __declspec(nothrow) tproc(HWND p1, UINT p2, UINT_PTR p3, DWORD p4)
 		switch(cnt)
 		{
 			case 0:
-				tp|"     ";
+				tp|"      ";
 				break;
 			case 1:
 				tp|"z";
+				min = 42;
 				break;
 			case 2:
 				tp|"zZ";
