@@ -43,7 +43,8 @@ void prnt(const char* t);
 void pi(long long int i);
 void pshots();
 void pbar();
-void scurt(); // Set Cursor in the position to pring time
+void scurt(); // Set Cursor in the position to print time
+void scurtm(); // Set Cursor in the position to print negative time
 void savest(); // Save State
 void readst(); // Read State
 void hideCursor();
@@ -278,10 +279,14 @@ void pbar()
 void scurt()
 {
 	static COORD xy = { 27 , 1 };
-	//static COORD clear = { 25 , 1 };
 	static HANDLE oh = GetStdHandle(STD_OUTPUT_HANDLE);
-	//SetConsoleCursorPosition(oh, clear);
-	//p|"  ";
+	SetConsoleCursorPosition(oh, xy);
+}
+
+void scurtm()
+{
+	static COORD xy = { 26 , 1 };
+	static HANDLE oh = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(oh, xy);
 }
 
@@ -349,8 +354,6 @@ void readst()
 			else
 			{
 				h_end = (char)t2i(it);
-				//scurt();
-				//p|"#########|"|it|"|t2i|"|t2i(it);
 			}
 			
 			it = 0;
@@ -378,8 +381,6 @@ void readst()
 			else if(setting == SET_CONSUMED)
 			{
 				h2o_consumed = (int)t2i(it);
-				//scurt();
-				//p|"#########|"|it|"|t2i|"|t2i(it);
 			}
 			
 			it = 0;
@@ -487,7 +488,15 @@ void __declspec(nothrow) tproc(HWND p1, UINT p2, UINT_PTR p3, DWORD p4)
 	// CRITICAL SECTION
 	WaitForSingleObject(mutex_lock, INFINITE);
 	
-	scurt();
+	if(min < -9)
+	{
+		scurtm();
+	}
+	else
+	{
+		scurt();
+	}
+	
 	p|!tp;
 	
 	ReleaseMutex(mutex_lock);
