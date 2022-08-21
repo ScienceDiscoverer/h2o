@@ -1,4 +1,4 @@
-# h2o
+# H2O
 
 <!-- <img src="readme/h2o.gif" width="533" height="311"> -->
 <img src="readme/h2o.gif" width="800" height="467">
