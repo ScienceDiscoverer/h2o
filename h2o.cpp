@@ -490,29 +490,7 @@ void __declspec(nothrow) tproc(HWND p1, UINT p2, UINT_PTR p3, DWORD p4)
 		tp|SP(2, '0')|min|DP|':'|SP(2, '0')|sec|DP;
 	}
 	
-	// CRITICAL SECTION
-	WaitForSingleObject(mutex_lock, INFINITE);
-	
-	if(min < -9)
-	{
-		scurtm();
-	}
-	else
-	{
-		scurt();
-	}
-	
-	p|!tp;
-	
-	ReleaseMutex(mutex_lock);
-	// CRITICAL SECTION
-	
-	if(end_of_time)
-	{
-		return;
-	}
-	
-	if(!min && !sec)
+	if(!min && !sec && !end_of_time)
 	{
 		if(h2o_consumed + shots_need * shot_ml < h2o_goal && shots_need <= 0)
 		{
@@ -539,26 +517,54 @@ void __declspec(nothrow) tproc(HWND p1, UINT p2, UINT_PTR p3, DWORD p4)
 	
 	if(shots_need > 0)
 	{
-		int old_int_min = int_min;
-		int old_int_sec = int_sec;
+		static int throb = 0;
 		recalcInterval();
 		
 		// CRITICAL SECTION
 		WaitForSingleObject(mutex_lock, INFINITE);
-		min -= old_int_min - int_min;
-		sec -= old_int_sec - int_sec;
-		if(sec < 0)
+		min = int_min;
+		sec = int_sec;
+		
+		if(min < -9)
 		{
-			sec = 60 + sec;
-			--min;
+			scurtm();
 		}
-		else if(sec > 59)
+		else
 		{
-			sec -= 60;
-			++min;
+			scurt();
 		}
+		
+		if(++throb % 2 == 0)
+		{
+			p|R|SP(2, '0')|min|DP|':'|SP(2, '0')|sec|DP|D;
+		}
+		else
+		{
+			p|SP(2, '0')|min|DP|':'|SP(2, '0')|sec|DP;
+		}
+		
 		ReleaseMutex(mutex_lock);
 		// CRITICAL SECTION
+	}
+	else
+	{
+		// CRITICAL SECTION
+		WaitForSingleObject(mutex_lock, INFINITE);
+		
+		if(min < -9)
+		{
+			scurtm();
+		}
+		else
+		{
+			scurt();
+		}
+		
+		p|!tp;
+		
+		ReleaseMutex(mutex_lock);
+		// CRITICAL SECTION
+	
 	}
 	
 	hideCursor();
